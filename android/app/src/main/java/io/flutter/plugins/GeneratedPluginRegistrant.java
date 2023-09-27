@@ -15,5 +15,10 @@ import io.flutter.embedding.engine.FlutterEngine;
 public final class GeneratedPluginRegistrant {
   private static final String TAG = "GeneratedPluginRegistrant";
   public static void registerWith(@NonNull FlutterEngine flutterEngine) {
+    try {
+      flutterEngine.getPlugins().add(new com.shivam.otp_pin_field.OtpPinFieldPlugin());
+    } catch (Exception e) {
+      Log.e(TAG, "Error registering plugin otp_pin_field, com.shivam.otp_pin_field.OtpPinFieldPlugin", e);
+    }
   }
 }
