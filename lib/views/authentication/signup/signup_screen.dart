@@ -3,6 +3,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:pinme/utils/color_utils.dart';
 import 'package:pinme/utils/extensions.dart';
 import 'package:pinme/views/authentication/login/login_screen.dart';
+import 'package:pinme/views/authentication/verification/otp_screen.dart';
 import 'package:pinme/widgets/custom_button.dart';
 import 'package:pinme/widgets/decorated_custom_button.dart';
 import 'package:stacked/stacked.dart';
@@ -56,7 +57,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                   padding: EdgeInsets.zero,
                                   constraints: const BoxConstraints(),
                                   onPressed: (){
-                                    Navigator.pop(context);
+                                    model.navigationService.back();
                                   },
                                   icon: const Icon(Icons.arrow_back_rounded,
                                     color: Colors.white,
@@ -211,7 +212,9 @@ class _SignupScreenState extends State<SignupScreen> {
                             ),
                             const Spacer(),
                             CustomButton(
-                              onTap: (){},
+                              onTap: (){
+                                model.navigationService.navigateTo(to: const OtpScreen());
+                              },
                               margin: EdgeInsets.symmetric(
                                   horizontal: 2.w
                               ),

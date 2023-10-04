@@ -4,6 +4,7 @@ import 'package:pinme/utils/color_utils.dart';
 import 'package:pinme/utils/extensions.dart';
 import 'package:pinme/utils/image_utils.dart';
 import 'package:pinme/views/authentication/login/login_screen.dart';
+import 'package:pinme/views/home/home.dart';
 import 'package:pinme/widgets/custom_button.dart';
 import 'package:pinme/widgets/decorated_custom_button.dart';
 import 'package:stacked/stacked.dart';
@@ -227,7 +228,9 @@ class _SignupDetailState extends State<SignupDetail> {
                             ),
                             const Spacer(),
                             CustomButton(
-                              onTap: (){},
+                              onTap: (){
+                                model.navigationService.navigateTo(to: const Home());
+                              },
                               margin: EdgeInsets.symmetric(
                                   horizontal: 2.w
                               ),

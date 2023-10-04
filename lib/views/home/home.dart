@@ -11,6 +11,7 @@ import 'package:pinme/utils/color_utils.dart';
 import 'package:pinme/utils/dimensions.dart';
 import 'package:pinme/utils/extensions.dart';
 import 'package:pinme/utils/image_utils.dart';
+import 'package:pinme/views/add%20pins/add_new_pin1.dart';
 import 'package:pinme/views/authentication/login/login_screen.dart';
 import 'package:pinme/widgets/custom_button.dart';
 import 'package:pinme/widgets/decorated_custom_button.dart';
@@ -406,14 +407,21 @@ class _HomeState extends State<Home> {
                                 horizontal: 5.w
                               ),
                               decoration: BoxDecoration(
-                                color: ColorUtils.onboardHeading,
-                                borderRadius: BorderRadius.circular(2.5.w)
+                                color: ColorUtils.whiteColor,
+                                borderRadius: BorderRadius.circular(2.5.w),
+                                image: DecorationImage(image: AssetImage(
+                                  ImageUtils.dummyPic
+                                ),
+                                  fit: BoxFit.contain
+                                )
                               ),
                             ),
 
                             SizedBox(height: 3.h,),
                             TextButton(
-                                onPressed: (){},
+                                onPressed: (){
+                                  model.navigationService.navigateTo(to: const AddNewPin1());
+                                },
                               style: ButtonStyle(
                                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                                       RoundedRectangleBorder(

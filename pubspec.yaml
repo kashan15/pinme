@@ -48,6 +48,9 @@ dependencies:
   otp_text_field:
   otp_pin_field: ^1.2.2
   pin_code_fields: ^8.0.1
+  simple_timer: ^2.0.0
+  slide_countdown: ^0.6.0
+  draggable_bottom_sheet: ^1.0.2
 
 dev_dependencies:
   flutter_test:

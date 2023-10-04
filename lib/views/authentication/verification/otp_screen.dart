@@ -8,6 +8,7 @@ import 'package:pinme/utils/color_utils.dart';
 import 'package:pinme/utils/dimensions.dart';
 import 'package:pinme/utils/extensions.dart';
 import 'package:pinme/views/authentication/login/login_screen.dart';
+import 'package:pinme/views/authentication/signup/signup_detail_screen.dart';
 import 'package:pinme/widgets/custom_button.dart';
 import 'package:pinme/widgets/decorated_custom_button.dart';
 import 'package:stacked/stacked.dart';
@@ -52,8 +53,18 @@ class _OtpScreenState extends State<OtpScreen> {
                         EdgeInsets.symmetric(
                             horizontal: 2.w
                       ),
-                        child: Icon(Icons.arrow_back_rounded,
-                        color: ColorUtils.onboardHeading,
+                        child:  SizedBox(
+                            height: 4.h,
+                            child: IconButton(
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(),
+                              onPressed: (){
+                                model.navigationService.back();
+                              },
+                              icon:  Icon(Icons.arrow_back_rounded,
+                                color: ColorUtils.onboardHeading,
+                              ),
+                            )
                         ),
                       ),
                       SizedBox(height: 10.h,),
@@ -117,7 +128,9 @@ class _OtpScreenState extends State<OtpScreen> {
                       ),
                       SizedBox(height: 10.h,),
                       CustomButton(
-                        onTap: (){},
+                        onTap: (){
+                          model.navigationService.navigateTo(to: const SignupDetail());
+                        },
                         margin: EdgeInsets.symmetric(
                             horizontal: 8.w
                         ),

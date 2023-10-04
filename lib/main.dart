@@ -3,12 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:pinme/utils/color_utils.dart';
 import 'package:pinme/utils/size_config.dart';
+import 'package:pinme/views/add%20pins/add_new_pin1.dart';
 import 'package:pinme/views/add%20pins/add_new_pin2.dart';
 import 'package:pinme/views/authentication/login/login_screen.dart';
 import 'package:pinme/views/authentication/signup/signup_detail_screen.dart';
 import 'package:pinme/views/authentication/signup/signup_screen.dart';
 import 'package:pinme/views/authentication/verification/otp_screen.dart';
 import 'package:pinme/views/home/home.dart';
+import 'package:pinme/views/show%20pins/show_pins_.dart';
 import 'package:pinme/views/splash/splash_screen.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -46,7 +48,7 @@ class MyApp extends StatelessWidget {
         return OrientationBuilder(
           builder: (context, orientation) {
             SizeConfig().init(constraints, orientation);
-            return const AddNewPin1();
+            return ShowPin1();
           },
         );
       },
