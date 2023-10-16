@@ -11,6 +11,7 @@ import 'package:pinme/utils/color_utils.dart';
 import 'package:pinme/utils/dimensions.dart';
 import 'package:pinme/utils/extensions.dart';
 import 'package:pinme/utils/image_utils.dart';
+import 'package:pinme/views/add%20pins/add_new_pin2.dart';
 import 'package:pinme/views/authentication/login/login_screen.dart';
 import 'package:pinme/widgets/custom_button.dart';
 import 'package:pinme/widgets/custom_textfield.dart';
@@ -77,12 +78,21 @@ class _AddNewPin1State extends State<AddNewPin1> {
                       ),
                       child: Column(
                         children: [
-                          SizedBox(height: 3.h,),
+                          SizedBox(height: 4.h,),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              const Icon(Icons.arrow_back_rounded,
-                                color: Colors.red,
+                              Material(
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  onTap: (){
+                                    // model.navigationService.back();
+                                    // model.notifyListeners();
+                                  },
+                                  child: const Icon(Icons.arrow_back_rounded,
+                                    color: Colors.red,
+                                  ),
+                                ),
                               ),
                               Expanded(
                                   child: Row(
@@ -120,6 +130,11 @@ class _AddNewPin1State extends State<AddNewPin1> {
                                       color: ColorUtils.onboardHeading,
                                       borderRadius: BorderRadius.circular(
                                           1.w
+                                      ),
+                                      image: DecorationImage(image: AssetImage(
+                                          ImageUtils.addNewPinMap
+                                      ),
+                                          fit: BoxFit.contain
                                       )
                                   ),
                                 ),
@@ -161,19 +176,150 @@ class _AddNewPin1State extends State<AddNewPin1> {
 
 
 
-                          CustomTextField1(
-                            controller: model.nameController,
-                            hintText: 'Name',
-                            hintColor: ColorUtils.onboardHeading,
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: ColorUtils.onboardHeading), // Color of the line when focused
+                          // CustomTextField1(
+                          //   controller: model.nameController,
+                          //   hintText: 'Name',
+                          //   hintColor: ColorUtils.onboardHeading,
+                          //   focusedBorder: UnderlineInputBorder(
+                          //     borderSide: BorderSide(color: ColorUtils.onboardHeading), // Color of the line when focused
+                          //   ),
+                          //   enabledBorder: const UnderlineInputBorder(
+                          //     borderSide: BorderSide(color: Colors.grey), // Color of the line when not focused
+                          //   ),
+                          //   //contentPadding: EdgeInsets.only(bottom: 2.25.h),
+                          //   prefixIcon: Icon(Icons.person, color: ColorUtils.onboardHeading,),
+                          //   //suffixIcon: Icon(Icons.person),
+                          // ),
+
+                          TextFormField(
+                            controller: model.controller1,
+                            cursorColor: ColorUtils.onboardHeading,
+                            style: TextStyle(
+                              color: ColorUtils.onboardHeading,
+                              fontSize: 2.t
                             ),
-                            enabledBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.grey), // Color of the line when not focused
-                            ),
-                            //contentPadding: EdgeInsets.only(bottom: 2.25.h),
-                            prefixIcon: Icon(Icons.person, color: ColorUtils.onboardHeading,),
-                            //suffixIcon: Icon(Icons.person),
+                            decoration:
+                            InputDecoration(
+                              labelText: "Name",
+                              labelStyle: TextStyle(
+                                color: ColorUtils.onboardHeading,
+                                fontWeight: FontWeight.w700,
+                                fontSize: 2.t
+                              ),
+                              fillColor: Colors.white,
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(2.w),
+                                borderSide: BorderSide(
+                                  color: ColorUtils.onboardHeading,
+                                  // style: BorderStyle.solid
+                                ),
+                              ),
+                                // hintText: 'Name',
+                                // hintStyle: TextStyle(
+                                //   color: ColorUtils.onboardHeading,
+                                // ),
+                                prefixIcon: Icon(Icons.person, color: ColorUtils.onboardHeading,)
+                            )
+
+                            // InputDecoration(
+                            //   hintText: 'Name',
+                            //   hintStyle: TextStyle(
+                            //     color: ColorUtils.onboardHeading,
+                            //   ),
+                            //   prefixIcon: Icon(Icons.person)
+                            // ),
+                            
+                          ),
+                          SizedBox(height: 4.h,),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: TextFormField(
+                                    cursorColor: ColorUtils.onboardHeading,
+                                    controller: model.controller2,
+                                    style: TextStyle(
+                                        color: ColorUtils.onboardHeading,
+                                        fontSize: 2.t
+                                    ),
+                                    decoration:
+                                    InputDecoration(
+                                        labelText: "Address",
+                                        labelStyle: TextStyle(
+                                            color: ColorUtils.onboardHeading,
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 2.t
+                                        ),
+                                        fillColor: Colors.white,
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(2.w),
+                                          borderSide: BorderSide(
+                                            color: ColorUtils.onboardHeading,
+                                            // style: BorderStyle.solid
+                                          ),
+                                        ),
+                                        // hintText: 'Address',
+                                        // hintStyle: TextStyle(
+                                        //   color: ColorUtils.onboardHeading,
+                                        // ),
+                                        prefixIcon: Icon(Icons.location_on, color: ColorUtils.onboardHeading,)
+                                    )
+
+                                  // InputDecoration(
+                                  //   hintText: 'Name',
+                                  //   hintStyle: TextStyle(
+                                  //     color: ColorUtils.onboardHeading,
+                                  //   ),
+                                  //   prefixIcon: Icon(Icons.person)
+                                  // ),
+
+                                ),
+                              ),
+                              SizedBox(width: 4.w,),
+                              Expanded(
+                                child: TextFormField(
+                                    cursorColor: ColorUtils.onboardHeading,
+                                    controller: model.controller3,
+                                    style: TextStyle(
+                                        color: ColorUtils.onboardHeading,
+                                        fontSize: 2.t
+                                    ),
+                                    decoration:
+                                    InputDecoration(
+                                        labelText: "Picture",
+                                        labelStyle: TextStyle(
+                                            color: ColorUtils.onboardHeading,
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 2.t
+                                        ),
+                                        fillColor: Colors.white,
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(2.w),
+                                          borderSide: BorderSide(
+                                            color: ColorUtils.onboardHeading,
+                                            // style: BorderStyle.solid
+                                          ),
+                                        ),
+
+                                        // hintText: 'Picture',
+                                        // hintStyle: TextStyle(
+                                        //   color: ColorUtils.onboardHeading,
+                                        // ),
+                                        prefixIcon: Icon(Icons.camera_alt_outlined, color: ColorUtils.onboardHeading,)
+                                    )
+
+                                  // InputDecoration(
+                                  //   hintText: 'Name',
+                                  //   hintStyle: TextStyle(
+                                  //     color: ColorUtils.onboardHeading,
+                                  //   ),
+                                  //   prefixIcon: Icon(Icons.person)
+                                  // ),
+
+                                ),
+                              ),
+                            ],
                           ),
 
                           SizedBox(height: 4.h,),
@@ -352,14 +498,13 @@ class _AddNewPin1State extends State<AddNewPin1> {
                           SizedBox(height: 2.5.h,),
                           CustomButton(
                             onTap: (){
-
+                              model.navigationService.navigateTo(to: AddNewPin2());
                             },
                             text: 'SAVE',
                             buttonColor: ColorUtils.onboardHeading,
                             textColor: Colors.white,
                           ),
-
-
+                          SizedBox(height: 6.h,),
                         ],
                       ),
                     )

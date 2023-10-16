@@ -9,6 +9,7 @@ import 'package:pinme/widgets/decorated_custom_button.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../app/locator.dart';
+import '../../../utils/image_utils.dart';
 import '../../../viewmodels/main_viewmodel.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -43,9 +44,16 @@ class _SignupScreenState extends State<SignupScreen> {
                       Container(
                         height: 31.h,
                         width: double.infinity,
-                        color: ColorUtils.onboardHeading,
                         padding: EdgeInsets.symmetric(
                           horizontal: 6.w,
+                        ),
+                        decoration: BoxDecoration(
+                            color: ColorUtils.onboardHeading,
+                            image: DecorationImage(image: AssetImage(
+                                ImageUtils.loginBackground
+                            ),
+                                fit: BoxFit.fill
+                            )
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -213,7 +221,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             const Spacer(),
                             CustomButton(
                               onTap: (){
-                                model.navigationService.navigateTo(to: const OtpScreen());
+                                model.navigationService.navigateTo(to: OtpScreen(index: 1,));
                               },
                               margin: EdgeInsets.symmetric(
                                   horizontal: 2.w

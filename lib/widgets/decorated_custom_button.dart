@@ -22,26 +22,29 @@ class DecoratedCustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(
-          vertical: 1.5.h
-      ),
-      margin: margin,
-      decoration: BoxDecoration(
-        color: buttonColor,
-        border: Border.all(
-          color: borderColor,
-          width: 2
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.symmetric(
+            vertical: 1.5.h
         ),
-        borderRadius: BorderRadius.circular(1.5.w),
-      ),
-      child: Center(
-        child: Text(
-          text,
-          style: TextStyle(
-            color: textColor,
-            fontSize: 1.8.t,
-            fontWeight: FontWeight.w900
+        margin: margin,
+        decoration: BoxDecoration(
+          color: buttonColor,
+          border: Border.all(
+            color: borderColor,
+            width: 2
+          ),
+          borderRadius: BorderRadius.circular(1.5.w),
+        ),
+        child: Center(
+          child: Text(
+            text,
+            style: TextStyle(
+              color: textColor,
+              fontSize: 1.8.t,
+              fontWeight: FontWeight.w900
+            ),
           ),
         ),
       ),

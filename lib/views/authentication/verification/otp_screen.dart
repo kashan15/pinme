@@ -9,7 +9,9 @@ import 'package:pinme/utils/dimensions.dart';
 import 'package:pinme/utils/extensions.dart';
 import 'package:pinme/views/authentication/login/login_screen.dart';
 import 'package:pinme/views/authentication/signup/signup_detail_screen.dart';
+import 'package:pinme/views/authentication/signup/signup_screen.dart';
 import 'package:pinme/widgets/custom_button.dart';
+import 'package:pinme/widgets/custom_navbar.dart';
 import 'package:pinme/widgets/decorated_custom_button.dart';
 import 'package:stacked/stacked.dart';
 
@@ -17,7 +19,10 @@ import '../../../app/locator.dart';
 import '../../../viewmodels/main_viewmodel.dart';
 
 class OtpScreen extends StatefulWidget {
-  const OtpScreen({super.key});
+  int? index;
+   OtpScreen({super.key,
+   this.index
+   });
 
   @override
   State<OtpScreen> createState() => _OtpScreenState();
@@ -127,9 +132,12 @@ class _OtpScreenState extends State<OtpScreen> {
                         ),
                       ),
                       SizedBox(height: 10.h,),
+
                       CustomButton(
                         onTap: (){
-                          model.navigationService.navigateTo(to: const SignupDetail());
+                          widget.index == 0 ?
+                          model.navigationService.navigateTo(to: const BottomNavBar()) :
+                          model.navigationService.navigateTo(to: const BottomNavBar());
                         },
                         margin: EdgeInsets.symmetric(
                             horizontal: 8.w

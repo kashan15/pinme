@@ -13,6 +13,7 @@ import 'package:pinme/utils/extensions.dart';
 import 'package:pinme/utils/image_utils.dart';
 import 'package:pinme/views/authentication/login/login_screen.dart';
 import 'package:pinme/widgets/custom_button.dart';
+import 'package:pinme/widgets/custom_navbar.dart';
 import 'package:pinme/widgets/custom_textfield.dart';
 import 'package:pinme/widgets/decorated_custom_button.dart';
 import 'package:simple_timer/simple_timer.dart';
@@ -52,18 +53,48 @@ class _ShowPin1State extends State<ShowPin1> with TickerProviderStateMixin{
     },
   ];
 
+  List ridersList = [
+    {
+      'image': ImageUtils.gridPic1
+    },
+    {
+      'image': ImageUtils.gridPic2
+    },
+    {
+      'image': ImageUtils.gridPic3
+    },
+    {
+      'image': ImageUtils.gridPic4
+    },
+  ];
+
   // declaration
 
 
   int select = 0;
+
   bool tap = false;
 
-   TimerController? _timerController;
+  bool hasError = false;
+  String currentText = "";
+  final formKey = GlobalKey<FormState>();
+
+  // TextEditingController textEditingController = TextEditingController();
+
+  TextEditingController fieldController = TextEditingController();
+  StreamController<ErrorAnimationType>? errorController1;
   @override
+
   void initState() {
-    _timerController = TimerController(this);
+    errorController1 = StreamController<ErrorAnimationType>();
     super.initState();
   }
+
+  // @override
+  // void dispose() {
+  //   //errorController!.close();
+  //   super.dispose();
+  // }
 
   // Create a global key for the scaffold
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -83,6 +114,7 @@ class _ShowPin1State extends State<ShowPin1> with TickerProviderStateMixin{
       viewModelBuilder: () => locator<MainViewModel>(),
       disposeViewModel: false,
       onViewModelReady: (model){
+        // model.gridSelection = 0;
       },
       builder: (context, model, child) {
         return SafeArea(
@@ -130,12 +162,42 @@ class _ShowPin1State extends State<ShowPin1> with TickerProviderStateMixin{
                             ),
                           ),
                           SizedBox(height: 2.h,),
+
                           Container(
                             height: 15.h,
                             width: double.infinity,
                             decoration: BoxDecoration(
-                              color: ColorUtils.onboardHeading
+                              color: ColorUtils.onboardHeading,
+                                image: DecorationImage(image: AssetImage(
+                                    ImageUtils.showPinMap
+                                ),
+                                    fit: BoxFit.contain
+                                )
                             ),
+                            // child: Column(
+                            //   children: [
+                            //     SizedBox(height: 2.h,),
+                            //     Text("497 Evergreen Rd.",
+                            //       style: TextStyle(
+                            //         fontSize: 2.t,
+                            //         fontWeight: FontWeight.bold,
+                            //         color: ColorUtils.whiteColor,
+                            //       ),
+                            //     ),
+                            //     SizedBox(height: 1.h,),
+                            //     Text("Roseville CA, 95673",
+                            //       style: TextStyle(
+                            //         fontSize: 2.t,
+                            //         fontWeight: FontWeight.bold,
+                            //         color: ColorUtils.whiteColor,
+                            //       ),
+                            //     ),
+                            //     Icon(Icons.location_on,
+                            //     color: Colors.white,
+                            //       size: 3.5.h,
+                            //     ),
+                            //   ],
+                            // ),
                           ),
                           SizedBox(height: 2.h,),
                           Text("January 27, 2021 - 3:45 PM",
@@ -191,7 +253,9 @@ class _ShowPin1State extends State<ShowPin1> with TickerProviderStateMixin{
                         horizontal: 4.w
                       ),
                       child: DecoratedCustomButton(
-                        onTap: (){},
+                        onTap: (){
+                          model.navigationService.navigateTo(to: BottomNavBar());
+                        },
                         text: 'Back Home',
                         buttonColor: Colors.white,
                         borderColor: ColorUtils.onboardHeading,
@@ -205,7 +269,20 @@ class _ShowPin1State extends State<ShowPin1> with TickerProviderStateMixin{
                           horizontal: 4.w
                       ),
                       child: CustomButton(
-                        onTap: _toggleBottomSheet,
+                        // onTap: _toggleBottomSheet,
+                        onTap: (){
+                          showModalBottomSheet(
+                              context: context,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(8.w)
+                                  )
+                              ),
+                              builder: (BuildContext context){
+                                return customModalSheet();
+                              }
+                          );
+                        },
                         text: 'SHOW PIN',
                         buttonColor: ColorUtils.onboardHeading,
                         textColor: Colors.white,
@@ -251,39 +328,677 @@ class _ShowPin1State extends State<ShowPin1> with TickerProviderStateMixin{
     );
   }
 
-
-  Widget customOTP(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: List.generate(
-        6, // Change the length according to your OTP requirements
-            (index) {
-          return Container(
-            width: 50, // Adjust the width of each OTP field
-            decoration: const BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  width: 2.0, // Adjust the border width as needed
-                  color: Colors.blue, // Change the border color
+  Widget customModalSheet(){
+    return ViewModelBuilder<MainViewModel>.reactive(
+      viewModelBuilder: () => locator<MainViewModel>(),
+      disposeViewModel: false,
+      onViewModelReady: (model){
+        // model.gridSelection = 0;
+      },
+      builder: (context, model, child) {
+        return SizedBox(
+          height: 48.h,
+          child: Column(
+            children: [
+              SizedBox(height: 2.h,),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: 6.w
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("PIN number",
+                      style: TextStyle(
+                        fontSize: 2.t,
+                        fontWeight: FontWeight.bold,
+                        color: ColorUtils.onboardHeading,
+                      ),
+                    ),
+                    Material(
+                      child: InkWell(
+                        onTap: (){},
+                        child: SizedBox(
+                          height: 3.5.h,
+                          child: Image.asset(
+                            ImageUtils.clipIcon
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
               ),
-            ),
-            child: TextField(
-              textAlign: TextAlign.center,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                border: InputBorder.none,
+
+              SizedBox(height: 2.5.h,),
+
+              // Form(
+              //   key: formKey,
+              //   child: Padding(
+              //     padding: EdgeInsets.symmetric(
+              //       horizontal: 6.w,
+              //     ),
+              //     child: PinCodeTextField(
+              //       appContext: context,
+              //       backgroundColor: Colors.white,
+              //
+              //       pastedTextStyle: TextStyle(
+              //         color: Colors.green.shade600,
+              //         fontWeight: FontWeight.bold,
+              //       ),
+              //       enablePinAutofill: true,
+              //       length: 6,
+              //       obscureText: true,
+              //       obscuringCharacter: '*',
+              //       blinkWhenObscuring: true,
+              //       animationType: AnimationType.fade,
+              //       validator: (v) {
+              //         if (v!.length < 3) {
+              //           return "I'm from validator";
+              //         } else {
+              //           return null;
+              //         }
+              //       },
+              //       pinTheme: PinTheme(
+              //         shape: PinCodeFieldShape.box,
+              //         borderRadius: BorderRadius.circular(5),
+              //         fieldHeight: 65,
+              //         fieldWidth: 45,
+              //         activeFillColor: Colors.white,
+              //       ),
+              //       cursorColor: Colors.black,
+              //       animationDuration: const Duration(milliseconds: 300),
+              //       enableActiveFill: true,
+              //       errorAnimationController: errorController1,
+              //       controller: fieldController,
+              //       keyboardType: TextInputType.number,
+              //       boxShadows: const [
+              //         BoxShadow(
+              //           offset: Offset(0, 1),
+              //           color: Colors.black12,
+              //           blurRadius: 10,
+              //         )
+              //       ],
+              //       onCompleted: (v) {
+              //         debugPrint("Completed");
+              //       },
+              //       // onTap: () {
+              //       //   print("Pressed");
+              //       // },
+              //       onChanged: (value) {
+              //         debugPrint(value);
+              //         setState(() {
+              //           currentText = value;
+              //         });
+              //       },
+              //       beforeTextPaste: (text) {
+              //         debugPrint("Allowing to paste $text");
+              //         //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
+              //         //but you can show anything you want here, like your pop up saying wrong paste format or etc
+              //         return true;
+              //       },
+              //     ),
+              //   ),
+              // ),
+              //
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              //   child: Text(
+              //     hasError ? "*Please fill up all the cells properly" : "",
+              //     style: const TextStyle(
+              //       color: Colors.red,
+              //       fontSize: 12,
+              //       fontWeight: FontWeight.w400,
+              //     ),
+              //   ),
+              // ),
+
+              SizedBox(height: 10.h,),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: 6.w
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("SHARE WITH",
+                      style: TextStyle(
+                        fontSize: 2.t,
+                        fontWeight: FontWeight.bold,
+                        color: ColorUtils.onboardHeading,
+                      ),
+                    ),
+                    Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: (){
+                          model.navigationService.navigateTo(to: SeeAllScreen());
+                        },
+                        child: Text("SEE ALL",
+                          style: TextStyle(
+                            fontSize: 2.t,
+                            fontWeight: FontWeight.bold,
+                            color: ColorUtils.blackColor,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-              onChanged: (value) {
-                // Handle OTP input changes
+
+              SizedBox(height: 1.h,),
+
+              SizedBox(
+                height: 10.h,
+                width: double.infinity,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  padding: EdgeInsets.only(
+                      left: 6.w
+                  ),
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: 4,
+                  itemBuilder: (context, index) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        GestureDetector(
+                          onTap: (){
+                            model.gridSelection = index;
+                            model.notifyListeners();
+                          },
+                          child: Container(
+                            height: 10.h,
+                            width: 20.5.w,
+                            decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                borderRadius: BorderRadius.circular(2.w),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.grey.withOpacity(0.3),
+                                      spreadRadius: 1,
+                                      blurRadius: 5,
+                                      offset: Offset(0, 3)
+                                  ),
+
+                                ],
+                                image: DecorationImage(image: AssetImage(
+                                    ridersList[index]['image']
+                                ),
+                                    fit: BoxFit.cover
+                                )
+                            ),
+                            child: Column(
+                              children: [
+                                SizedBox(height: 0.5.h,),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 2.w
+                                  ),
+                                  child: Align(
+                                      alignment: Alignment.topRight,
+                                      child: SizedBox(
+                                        height: 1.75.h,
+                                        child:
+                                        model.gridSelection == index ?
+                                        Image.asset(
+                                          ImageUtils.check,
+                                        ) :
+                                        Image.asset(
+                                          ImageUtils.check,
+                                          color: Colors.transparent,
+                                        )
+                                      )
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 2.w,)
+                      ],
+                    );
+                  },
+                ),
+              ),
+
+              SizedBox(height: 7.h,),
+
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: 6.w
+                ),
+                child: CustomButton(
+                  onTap: (){},
+                  text: 'CLOSE',
+                  buttonColor: ColorUtils.onboardHeading,
+                  textColor: Colors.white,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+    
+  }
+}
+
+
+
+class SeeAllScreen extends StatefulWidget {
+  const SeeAllScreen({super.key});
+
+  @override
+  State<SeeAllScreen> createState() => _SeeAllScreenState();
+}
+
+class _SeeAllScreenState extends State<SeeAllScreen> {
+
+  List ridersList = [
+    {
+      'image': ImageUtils.gridPic1
+    },
+    {
+      'image': ImageUtils.gridPic2
+    },
+    {
+      'image': ImageUtils.gridPic3
+    },
+    {
+      'image': ImageUtils.gridPic4
+    },
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return ViewModelBuilder<MainViewModel>.reactive(
+      viewModelBuilder: () => locator<MainViewModel>(),
+      disposeViewModel: false,
+      onViewModelReady: (model){
+        // model.gridSelection = 0;
+      },
+      builder: (context, model, child) {
+        return SafeArea(
+          top: false,
+          bottom: false,
+          child: GestureDetector(
+              onTap: (){
+                context.unFocus();
               },
-            ),
-          );
-        },
-      ),
+              child: Scaffold(
+                body: Container(
+                    height: double.infinity,
+                    width: double.infinity,
+                    color: ColorUtils.chatBackground,
+                    child: SingleChildScrollView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      child: Column(
+                        children: [
+                          SizedBox(height: 6.h,),
+                          Text("PIN number",
+                            style: TextStyle(
+                              fontSize: 2.5.t,
+                              fontWeight: FontWeight.bold,
+                              color: ColorUtils.onboardHeading,
+                            ),
+                          ),
+                          SizedBox(height: 4.h,),
+                          Container(
+                            height: MediaQuery.of(context).size.height * 1,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(12.w),
+                                topRight: Radius.circular(12.w)
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.3),
+                                  spreadRadius: 1,
+                                  blurRadius: 5,
+                                  offset: Offset(0, 3)
+                                )
+                              ]
+                            ),
+                            child: Column(
+                              children: [
+                                SizedBox(height: 2.5.h,),
+                                Align(
+                                  alignment: Alignment.topRight,
+                                  child: Material(
+                                    color: Colors.transparent,
+                                    child: InkWell(
+                                      onTap: (){
+                                        model.navigationService.back();
+                                      },
+                                      child: Container(
+                                        height: 4.h,
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 4.w
+                                        ),
+                                        child: Image.asset(
+                                          ImageUtils.crossIcon,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 4.h,),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 6.w
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text("PIN number",
+                                        style: TextStyle(
+                                          fontSize: 2.t,
+                                          fontWeight: FontWeight.bold,
+                                          color: ColorUtils.onboardHeading,
+                                        ),
+                                      ),
+                                      Material(
+                                        child: InkWell(
+                                          onTap: (){},
+                                          child: SizedBox(
+                                            height: 3.5.h,
+                                            child: Image.asset(
+                                                ImageUtils.clipIcon,
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+
+                                SizedBox(height: 2.5.h,),
+
+                                // Form(
+                                //   key: formKey,
+                                //   child: Padding(
+                                //     padding: EdgeInsets.symmetric(
+                                //       horizontal: 6.w,
+                                //     ),
+                                //     child: PinCodeTextField(
+                                //       appContext: context,
+                                //       backgroundColor: Colors.white,
+                                //
+                                //       pastedTextStyle: TextStyle(
+                                //         color: Colors.green.shade600,
+                                //         fontWeight: FontWeight.bold,
+                                //       ),
+                                //       enablePinAutofill: true,
+                                //       length: 6,
+                                //       obscureText: true,
+                                //       obscuringCharacter: '*',
+                                //       blinkWhenObscuring: true,
+                                //       animationType: AnimationType.fade,
+                                //       validator: (v) {
+                                //         if (v!.length < 3) {
+                                //           return "I'm from validator";
+                                //         } else {
+                                //           return null;
+                                //         }
+                                //       },
+                                //       pinTheme: PinTheme(
+                                //         shape: PinCodeFieldShape.box,
+                                //         borderRadius: BorderRadius.circular(5),
+                                //         fieldHeight: 65,
+                                //         fieldWidth: 45,
+                                //         activeFillColor: Colors.white,
+                                //       ),
+                                //       cursorColor: Colors.black,
+                                //       animationDuration: const Duration(milliseconds: 300),
+                                //       enableActiveFill: true,
+                                //       errorAnimationController: errorController1,
+                                //       controller: fieldController,
+                                //       keyboardType: TextInputType.number,
+                                //       boxShadows: const [
+                                //         BoxShadow(
+                                //           offset: Offset(0, 1),
+                                //           color: Colors.black12,
+                                //           blurRadius: 10,
+                                //         )
+                                //       ],
+                                //       onCompleted: (v) {
+                                //         debugPrint("Completed");
+                                //       },
+                                //       // onTap: () {
+                                //       //   print("Pressed");
+                                //       // },
+                                //       onChanged: (value) {
+                                //         debugPrint(value);
+                                //         setState(() {
+                                //           currentText = value;
+                                //         });
+                                //       },
+                                //       beforeTextPaste: (text) {
+                                //         debugPrint("Allowing to paste $text");
+                                //         //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
+                                //         //but you can show anything you want here, like your pop up saying wrong paste format or etc
+                                //         return true;
+                                //       },
+                                //     ),
+                                //   ),
+                                // ),
+                                //
+                                // Padding(
+                                //   padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                                //   child: Text(
+                                //     hasError ? "*Please fill up all the cells properly" : "",
+                                //     style: const TextStyle(
+                                //       color: Colors.red,
+                                //       fontSize: 12,
+                                //       fontWeight: FontWeight.w400,
+                                //     ),
+                                //   ),
+                                // ),
+
+                                SizedBox(height: 10.h,),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 6.w
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text("SHARE WITH",
+                                        style: TextStyle(
+                                          fontSize: 2.t,
+                                          fontWeight: FontWeight.bold,
+                                          color: ColorUtils.onboardHeading,
+                                        ),
+                                      ),
+
+                                    ],
+                                  ),
+                                ),
+
+                                SizedBox(height: 1.h,),
+
+                                SizedBox(
+                                  height: 10.h,
+                                  width: double.infinity,
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    padding: EdgeInsets.only(
+                                        left: 6.w
+                                    ),
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    itemCount: 4,
+                                    itemBuilder: (context, index) {
+                                      return Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        children: [
+                                          GestureDetector(
+                                            onTap: (){
+                                              model.gridSelection = index;
+                                              model.notifyListeners();
+                                            },
+                                            child: Container(
+                                              height: 10.h,
+                                              width: 20.5.w,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.transparent,
+                                                  borderRadius: BorderRadius.circular(2.w),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                        color: Colors.grey.withOpacity(0.3),
+                                                        spreadRadius: 1,
+                                                        blurRadius: 5,
+                                                        offset: Offset(0, 3)
+                                                    ),
+
+                                                  ],
+                                                  image: DecorationImage(image: AssetImage(
+                                                      ridersList[index]['image']
+                                                  ),
+                                                      fit: BoxFit.cover
+                                                  )
+                                              ),
+                                              child: Column(
+                                                children: [
+                                                  SizedBox(height: 0.5.h,),
+                                                  Padding(
+                                                    padding: EdgeInsets.symmetric(
+                                                        horizontal: 2.w
+                                                    ),
+                                                    child: Align(
+                                                        alignment: Alignment.topRight,
+                                                        child: SizedBox(
+                                                            height: 1.75.h,
+                                                            child:
+                                                            model.gridSelection == index ?
+                                                            Image.asset(
+                                                              ImageUtils.check,
+                                                            ) :
+                                                            Image.asset(
+                                                              ImageUtils.check,
+                                                              color: Colors.transparent,
+                                                            )
+                                                        )
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(width: 2.w,)
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ),
+                                SizedBox(height: 2.h,),
+                                SizedBox(
+                                  height: 10.h,
+                                  width: double.infinity,
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    padding: EdgeInsets.only(
+                                        left: 6.w
+                                    ),
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    itemCount: 4,
+                                    itemBuilder: (context, index) {
+                                      return Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        children: [
+                                          GestureDetector(
+                                            onTap: (){
+                                              model.gridSelection = index;
+                                              model.notifyListeners();
+                                            },
+                                            child: Container(
+                                              height: 10.h,
+                                              width: 20.5.w,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.transparent,
+                                                  borderRadius: BorderRadius.circular(2.w),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                        color: Colors.grey.withOpacity(0.3),
+                                                        spreadRadius: 1,
+                                                        blurRadius: 5,
+                                                        offset: Offset(0, 3)
+                                                    ),
+
+                                                  ],
+                                                  image: DecorationImage(image: AssetImage(
+                                                      ridersList[index]['image']
+                                                  ),
+                                                      fit: BoxFit.cover
+                                                  )
+                                              ),
+                                              child: Column(
+                                                children: [
+                                                  SizedBox(height: 0.5.h,),
+                                                  Padding(
+                                                    padding: EdgeInsets.symmetric(
+                                                        horizontal: 2.w
+                                                    ),
+                                                    child: Align(
+                                                        alignment: Alignment.topRight,
+                                                        child: SizedBox(
+                                                            height: 1.75.h,
+                                                            child:
+                                                            model.gridSelection == index ?
+                                                            Image.asset(
+                                                              ImageUtils.check,
+                                                            ) :
+                                                            Image.asset(
+                                                              ImageUtils.check,
+                                                              color: Colors.transparent,
+                                                            )
+                                                        )
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(width: 2.w,)
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ),
+
+                                SizedBox(height: 25.h,),
+
+
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 6.w
+                                  ),
+                                  child: CustomButton(
+                                    onTap: (){},
+                                    text: 'CLOSE',
+                                    buttonColor: ColorUtils.onboardHeading,
+                                    textColor: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                ]),
+                    ),
+              ),
+          ),
+        ));
+      },
     );
   }
 }
+
 
 
 

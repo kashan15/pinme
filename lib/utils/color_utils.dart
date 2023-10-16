@@ -31,5 +31,9 @@ class ColorUtils{
   static Color stateColor = const Color (0xFFFCFCFC);
   static Color red = Color (0xFFD90000);
   static Color yellowColor = Color (0xFFF5E631);
+  static Color gridColor1 = Color (0xFFFCDF00);
+  // static Color gridColor1 = Color (0xFFFCDF00);
+  // static Color gridColor1 = Color (0xFFFCDF00);
+  // static Color gridColor1 = Color (0xFFFCDF00);
 
 }

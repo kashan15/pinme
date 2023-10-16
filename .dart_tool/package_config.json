@@ -74,6 +74,12 @@
       "languageVersion": "2.19"
     },
     {
+      "name": "flutter_slidable",
+      "rootUri": "file:///Users/mac/.pub-cache/hosted/pub.dev/flutter_slidable-3.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "flutter_svg",
       "rootUri": "file:///Users/mac/.pub-cache/hosted/pub.dev/flutter_svg-1.1.6",
       "packageUri": "lib/",
@@ -190,6 +196,12 @@
     {
       "name": "path_parsing",
       "rootUri": "file:///Users/mac/.pub-cache/hosted/pub.dev/path_parsing-1.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "persistent_bottom_nav_bar",
+      "rootUri": "file:///Users/mac/.pub-cache/hosted/pub.dev/persistent_bottom_nav_bar-5.0.2",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -332,7 +344,7 @@
       "languageVersion": "2.19"
     }
   ],
-  "generated": "2023-10-04T12:00:43.247911Z",
+  "generated": "2023-10-16T10:20:08.731185Z",
   "generator": "pub",
   "generatorVersion": "3.1.2"
 }

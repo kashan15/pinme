@@ -46,9 +46,16 @@ class _SignupDetailState extends State<SignupDetail> {
                       Container(
                         height: 31.h,
                         width: double.infinity,
-                        color: ColorUtils.onboardHeading,
                         padding: EdgeInsets.symmetric(
                           horizontal: 6.w,
+                        ),
+                        decoration: BoxDecoration(
+                            color: ColorUtils.onboardHeading,
+                            image: DecorationImage(image: AssetImage(
+                                ImageUtils.loginBackground
+                            ),
+                                fit: BoxFit.fill
+                            )
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -217,7 +224,7 @@ class _SignupDetailState extends State<SignupDetail> {
                                   hintColor: Colors.black.withOpacity(0.6),
                                   fontSize: 2.2.t,
                                   cursorColor: Colors.black,
-                                  controller: model.nameController,
+                                  controller: model.emailController,
                                   prefixIcon: Icon(
                                     Icons.do_not_disturb_on_total_silence,
                                     size: 2.w,

@@ -4,6 +4,7 @@ import 'package:pinme/utils/color_utils.dart';
 import 'package:pinme/utils/extensions.dart';
 import 'package:pinme/utils/image_utils.dart';
 import 'package:pinme/views/authentication/login/login_screen.dart';
+import 'package:stacked/stacked.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
@@ -34,13 +35,14 @@ class _OnboardingScreen extends State<OnboardingScreen> {
             controller: ScrollController(),
             child: Column(
               children: [
-                SizedBox(height: 13.h,),
+                SizedBox(height: 18.h,),
                 Align(
                   alignment: Alignment.center,
                   child: SizedBox(
                     height: 40.h,
-                      child: Image.asset(ImageUtils.splashLogo)),
+                      child: Image.asset(ImageUtils.onboarding1)),
                 ),
+                SizedBox(height: 4.h,),
                 Align(
                   alignment: Alignment.center,
                   child: Text("With Pin Me drop a pin on\nyour exact location",
@@ -91,13 +93,14 @@ class _OnboardingScreen extends State<OnboardingScreen> {
               controller: ScrollController(),
               child: Column(
                 children: [
-                  SizedBox(height: 13.h,),
+                  SizedBox(height: 18.h,),
                   Align(
                     alignment: Alignment.center,
                     child: SizedBox(
                         height: 40.h,
-                        child: Image.asset(ImageUtils.splashLogo)),
+                        child: Image.asset(ImageUtils.onboarding2)),
                   ),
+                  SizedBox(height: 4.h,),
                   Align(
                     alignment: Alignment.center,
                     child: Text("With Pin Me Add views and\nphotos",
@@ -148,13 +151,14 @@ class _OnboardingScreen extends State<OnboardingScreen> {
               controller: ScrollController(),
               child: Column(
                 children: [
-                  SizedBox(height: 13.h,),
+                  SizedBox(height: 18.h,),
                   Align(
                     alignment: Alignment.center,
                     child: SizedBox(
                         height: 40.h,
-                        child: Image.asset(ImageUtils.splashLogo)),
+                        child: Image.asset(ImageUtils.onboarding3)),
                   ),
+                  SizedBox(height: 4.h,),
                   Align(
                     alignment: Alignment.center,
                     child: Text("Share with friends",
@@ -203,10 +207,14 @@ class _OnboardingScreen extends State<OnboardingScreen> {
       child: InkWell(
         borderRadius: defaultSkipButtonBorderRadius,
         onTap: () {
-          if (setIndex != null) {
-            index = 2;
-            setIndex(2);
-          }
+          // if (setIndex != null) {
+          //   index = 2;
+          //   setIndex(2);
+          // }
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const LoginScreen()),
+          );
         },
         child: Padding(
           padding: defaultSkipButtonPadding,

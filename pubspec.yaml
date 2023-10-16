@@ -51,7 +51,8 @@ dependencies:
   simple_timer: ^2.0.0
   slide_countdown: ^0.6.0
   draggable_bottom_sheet: ^1.0.2
-
+  flutter_slidable: ^3.0.0
+  persistent_bottom_nav_bar: ^5.0.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
