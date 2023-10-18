@@ -53,6 +53,10 @@ dependencies:
   draggable_bottom_sheet: ^1.0.2
   flutter_slidable: ^3.0.0
   persistent_bottom_nav_bar: ^5.0.2
+  google_maps_flutter: ^2.5.0
+  firebase_core: ^2.18.0
+  firebase_auth: ^4.11.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

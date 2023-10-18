@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:otp_pin_field/otp_pin_field.dart';
 import 'package:otp_text_field/otp_field.dart';
@@ -53,6 +54,13 @@ class _AddNewPin2State extends State<AddNewPin2> {
 
   int select = 0;
   bool tap = false;
+
+  Completer<GoogleMapController> _controller = Completer();
+
+  static const CameraPosition _kGooglePlex = CameraPosition(
+      target: LatLng(37.42796133580664, -122.085749655962),
+    zoom: 14
+  );
 
   Widget build(BuildContext context) {
     return ViewModelBuilder<MainViewModel>.reactive(
@@ -124,13 +132,20 @@ class _AddNewPin2State extends State<AddNewPin2> {
                               Container(
                                 height: MediaQuery.of(context).size.height * 0.75,
                                 decoration: BoxDecoration(
-                                    color: ColorUtils.onboardHeading,
+                                    //color: ColorUtils.onboardHeading,
                                     //borderRadius: BorderRadius.circular(4.w),
-                                    image: DecorationImage(image: AssetImage(
-                                        ImageUtils.fullMap
-                                    ),
-                                        fit: BoxFit.fill
-                                    )
+
+                                    // image: DecorationImage(image: AssetImage(
+                                    //     ImageUtils.fullMap
+                                    // ),
+                                    //     fit: BoxFit.fill
+                                    // )
+                                ),
+                                child: GoogleMap(
+                                    initialCameraPosition: _kGooglePlex,
+                                  onMapCreated: (GoogleMapController controller){
+                                      _controller.complete(controller);
+                                  },
                                 ),
                               ),
                               SizedBox(height: 4.h,),

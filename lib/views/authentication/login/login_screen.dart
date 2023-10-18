@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:pinme/utils/color_utils.dart';
@@ -16,6 +17,8 @@ import '../signup/signup_screen.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
+  static String verify = '';
+
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
@@ -23,6 +26,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
 
   bool pop = false;
+
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<MainViewModel>.reactive(
@@ -203,17 +207,27 @@ class _LoginScreenState extends State<LoginScreen> {
                                 onTap: (){},
                                 initialCountryCode: 'SA',
                                 onChanged: (phone) {
-                                  // model.signupCountryCode = phone.countryCode ;
-                                  // model.signupPhoneController.text = phone.number;
-                                  // model.completeSignupPhoneNumber.text = phone.completeNumber;
-                                  // model.notifyListeners();
+                                  model.loginCountryCode = phone.countryCode ;
+                                  model.loginPhoneController.text = phone.number;
+                                  model.completeLoginPhoneNumber.text = phone.completeNumber;
+                                  model.notifyListeners();
                                 },
                               ),
                             ),
                             const Spacer(),
                             CustomButton(
-                              onTap: (){
-                                model.navigationService.navigateTo(to: OtpScreen(index: 0,));
+                              onTap: () async{
+                                await FirebaseAuth.instance.verifyPhoneNumber(
+                                  phoneNumber: model.completeLoginPhoneNumber.text,
+                                  verificationCompleted: (PhoneAuthCredential credential) {},
+                                  verificationFailed: (FirebaseAuthException e) {},
+                                  codeSent: (String verificationId, int? resendToken) {
+                                    LoginScreen.verify = verificationId;
+                                    model.navigationService.navigateTo(to: OtpScreen(index: 0,));
+                                  },
+                                  codeAutoRetrievalTimeout: (String verificationId) {},
+                                );
+                                //model.navigationService.navigateTo(to: OtpScreen(index: 0,));
                               },
                               margin: EdgeInsets.symmetric(
                                   horizontal: 2.w

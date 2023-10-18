@@ -13,6 +13,14 @@ class MainViewModel extends BaseViewModel{
   TextEditingController controller2 = TextEditingController();
   TextEditingController controller3 = TextEditingController();
 
+  String? loginCountryCode;
+  TextEditingController loginPhoneController =
+  TextEditingController();
+
+  TextEditingController completeLoginPhoneNumber = TextEditingController();
+
+
+
   int locationTap = 0;
   int shareTap = 1;
 

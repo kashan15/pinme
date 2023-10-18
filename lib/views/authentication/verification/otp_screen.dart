@@ -1,3 +1,6 @@
+import 'dart:ui';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:otp_pin_field/otp_pin_field.dart';
@@ -16,6 +19,7 @@ import 'package:pinme/widgets/decorated_custom_button.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../app/locator.dart';
+import '../../../utils/image_utils.dart';
 import '../../../viewmodels/main_viewmodel.dart';
 
 class OtpScreen extends StatefulWidget {
@@ -29,6 +33,65 @@ class OtpScreen extends StatefulWidget {
 }
 
 class _OtpScreenState extends State<OtpScreen> {
+
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
+
+  var code = '';
+
+  customDialogue(){
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Center(
+          child: Container(
+            height: 22.h,
+            width: double.infinity,
+            margin: EdgeInsets.symmetric(
+                horizontal: 6.w
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(4.w),
+            ),
+            child: Column(
+              children: [
+                SizedBox(height: 2.h,),
+                SizedBox(
+                  height: 8.h,
+                    child: Image.asset(ImageUtils.logoWhite1, color: ColorUtils.onboardHeading,))
+,              SizedBox(height: 2.h,),
+                Text("Verification Failed!",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    //fontFamily: FontUtils.avertaSemiBold,
+                    fontSize: 2.5.t,
+                    fontWeight: FontWeight.bold,
+                    color: ColorUtils.onboardHeading,
+                    decoration: TextDecoration.none
+                  ),
+                ),
+                SizedBox(height: 1.25.h,),
+                Text("You Insert Wrong OTP",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    //fontFamily: FontUtils.avertaSemiBold,
+                    fontSize: 2.2.t,
+                    fontWeight: FontWeight.w700,
+                    color: ColorUtils.blackColor,
+                      decoration: TextDecoration.none
+                  ),
+                ),
+                SizedBox(height: 2.5.h,),
+
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   final _otpPinFieldController = GlobalKey<OtpPinFieldState>();
   Widget build(BuildContext context) {
@@ -105,13 +168,13 @@ class _OtpScreenState extends State<OtpScreen> {
                       SizedBox(height: 8.h,),
                       Padding(
                           padding: EdgeInsets.symmetric(
-                            horizontal: 8.w
+                            horizontal: 2.w
                           ),
                         child: OTPTextField(
-                          length: 4,
+                          length: 6,
                           // outlineBorderRadius: 15.w,
                           width: MediaQuery.of(context).size.width,
-                          fieldWidth: 60,
+                          fieldWidth: 40,
                           style: TextStyle(
                             //fontFamily: FontUtils.avertaSemiBold,
                             fontSize: 4.t,
@@ -126,18 +189,36 @@ class _OtpScreenState extends State<OtpScreen> {
                           //   disabledBorderColor: Colors.red,
                           // ),
                           isDense: true,
+
+                          onChanged: (value){
+                            code = value;
+                          },
+
                           onCompleted: (pin) {
                             print("Completed: " + pin);
                           },
+
                         ),
                       ),
                       SizedBox(height: 10.h,),
 
                       CustomButton(
-                        onTap: (){
-                          widget.index == 0 ?
-                          model.navigationService.navigateTo(to: const BottomNavBar()) :
-                          model.navigationService.navigateTo(to: const BottomNavBar());
+                        onTap: () async{
+                         try{
+                           PhoneAuthCredential credential =
+                           PhoneAuthProvider.credential(verificationId: LoginScreen.verify, smsCode: code);
+                           await auth.signInWithCredential(credential);
+                           widget.index == 0 ?
+                           model.navigationService.navigateTo(to: const BottomNavBar()) :
+                           model.navigationService.navigateTo(to: const BottomNavBar());
+                         }
+                         catch(e){
+                           print("wrong otp");
+                           customDialogue();
+                         }
+                          // widget.index == 0 ?
+                          // model.navigationService.navigateTo(to: const BottomNavBar()) :
+                          // model.navigationService.navigateTo(to: const BottomNavBar());
                         },
                         margin: EdgeInsets.symmetric(
                             horizontal: 8.w

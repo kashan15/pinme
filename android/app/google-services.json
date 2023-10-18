@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "927105758571",
+    "project_id": "pinme-otp-3",
+    "storage_bucket": "pinme-otp-3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:927105758571:android:2234295eb6a56a174ac82e",
+        "android_client_info": {
+          "package_name": "com.example.pinme"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBj8REhrJdoHzkjhEE7tXKvFXeFudRxxkE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

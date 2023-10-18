@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -40,8 +41,10 @@ class _HomeState extends State<Home> {
   StreamController<ErrorAnimationType>? errorController;
   @override
   void initState() {
-    errorController = StreamController<ErrorAnimationType>();
     super.initState();
+
+    errorController = StreamController<ErrorAnimationType>();
+
   }
 
   @override
@@ -61,11 +64,144 @@ class _HomeState extends State<Home> {
   }
 
   bool pop = false;
+
+
+
+  customDialogue(){
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Center(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
+              child: Container(
+                //alignment: Alignment.center,
+                height: 26.5.h,
+                width: double.infinity,
+                margin: EdgeInsets.symmetric(
+                  horizontal: 6.w
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8.w),
+                ),
+                child: Column(
+                  children: [
+                    SizedBox(height: 4.h,),
+                    Text("Setup your Profile PIN",
+                      style: TextStyle(
+                        //fontFamily: FontUtils.avertaSemiBold,
+                        fontSize: 2.5.t,
+                        fontWeight: FontWeight.bold,
+                        color: ColorUtils.onboardHeading,
+                      ),
+                    ),
+                    SizedBox(height: 1.h,),
+
+                    Text("To avoid losing your permanent pin-codes,\ncreate a free account with Pin Me.\nGuest users have a 3 hour window before\npin-codes are deleted",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        //fontFamily: FontUtils.avertaSemiBold,
+                        fontSize: 1.8.t,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey.withOpacity(0.5),
+                      ),
+                    ),
+                    //SizedBox(height: 1.h,),
+                     Divider(
+                      color: Colors.grey.withOpacity(0.5),
+                      thickness: 1,
+                    ),
+                     Expanded(
+                      child:  IntrinsicHeight(
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Material(
+                                color: Colors.transparent,
+                                borderRadius: BorderRadius.only(
+                                    bottomRight: Radius.circular(8.w)
+                                ),
+                                child: InkWell(
+                                  onTap: (){
+                                    Navigator.pop(context);
+                                  },
+                                  child: Container(
+                                    height: double.infinity,
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: Colors.transparent,
+                                      borderRadius: BorderRadius.circular(8.w),
+                                    ),
+                                    child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                      children:[
+                                        SizedBox(
+                                          height: 2.h,
+                                          child: Image.asset(
+                                            ImageUtils.emoji1,
+                                          ),
+                                        )
+                                    ]
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            VerticalDivider(
+                              color: Colors.black,
+                              thickness: 0.5,
+                            ),
+                            Expanded(
+                              child: Material(
+                                color: Colors.transparent,
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(8.w)
+                                ),
+                                child: InkWell(
+                                  onTap: (){
+                                    Navigator.pop(context);
+                                  },
+                                  child: Container(
+                                    height: double.infinity,
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      color: Colors.transparent,
+                                      borderRadius: BorderRadius.circular(8.w),
+                                    ),
+                                    child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children:[
+                                          SizedBox(
+                                            height: 2.h,
+                                            child: Image.asset(
+                                              ImageUtils.emoji2,
+                                            ),
+                                          )
+                                        ]
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+    );
+  }
   Widget build(BuildContext context) {
     return ViewModelBuilder<MainViewModel>.reactive(
       viewModelBuilder: () => locator<MainViewModel>(),
       disposeViewModel: false,
-      onViewModelReady: (model){
+      onViewModelReady: (model)async{
+       // await customDialogue();
       },
       builder: (context, model, child) {
         return SafeArea(

@@ -25,6 +25,8 @@ class ImageUtils{
   static String onboarding2 = "assets/images/Onboarding-2.png";
   static String onboarding3 = "assets/images/Onboarding-3.png";
   static String loginBackground = "assets/images/bg_login.png";
+  static String emoji1 = "assets/images/emoji1.png";
+  static String emoji2 = "assets/images/emoji2.png";
 
 
   /// SVG
