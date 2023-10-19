@@ -8,6 +8,7 @@ import 'package:pinme/views/authentication/verification/otp_screen.dart';
 import 'package:pinme/views/guest/guest_screen.dart';
 import 'package:pinme/widgets/custom_button.dart';
 import 'package:pinme/widgets/decorated_custom_button.dart';
+import 'package:pinme/widgets/loader.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../app/locator.dart';
@@ -162,6 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: IntlPhoneField(
                                 textAlignVertical: TextAlignVertical.center,
                                 cursorColor: ColorUtils.onboardHeading,
+                                //controller: model.loginPhoneController,
                                 showCountryFlag: true,
                                 showDropdownIcon: true,
                                 dropdownIcon: Icon(
@@ -175,9 +177,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 //showDropdownIcon: false,
                                 style: TextStyle(
                                   //fontFamily: FontUtils.avertaSemiBold,
-                                    fontSize: 1.5.t,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.grey.withOpacity(0.8),
+                                  //   fontSize: 1.5.t,
+                                  fontSize: 2.t,
+                                    fontWeight: FontWeight.normal,
+                                    color: Colors.black.withOpacity(0.5),
 
                                 ),
                                 //autoValidate: false,
@@ -187,7 +190,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                   isDense: true,
                                   alignLabelWithHint: true,
                                   counterText: "",
-
                                   contentPadding: EdgeInsets.only(top: 0.h,left: 0.w,right: 0.w,bottom: 0.h),
                                   focusedBorder: InputBorder.none,
                                   labelStyle: TextStyle(
@@ -196,9 +198,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                   hintText: '55X XXX XXX',
                                   hintStyle: TextStyle(
-                                    color: Colors.grey.withOpacity(0.8),
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 1.5.t
+                                    // color: Colors.grey.withOpacity(0.8),
+                                    color: Colors.black.withOpacity(0.5),
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 2.t
                                   ),
                                   border: OutlineInputBorder(
                                     borderSide: BorderSide.none,
@@ -215,26 +218,34 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                             const Spacer(),
-                            CustomButton(
+                            CustomButton1(
                               onTap: () async{
-                                await FirebaseAuth.instance.verifyPhoneNumber(
-                                  phoneNumber: model.completeLoginPhoneNumber.text,
-                                  verificationCompleted: (PhoneAuthCredential credential) {},
-                                  verificationFailed: (FirebaseAuthException e) {},
-                                  codeSent: (String verificationId, int? resendToken) {
-                                    LoginScreen.verify = verificationId;
-                                    model.navigationService.navigateTo(to: OtpScreen(index: 0,));
-                                  },
-                                  codeAutoRetrievalTimeout: (String verificationId) {},
-                                );
+                                // await FirebaseAuth.instance.verifyPhoneNumber(
+                                //   phoneNumber: model.completeLoginPhoneNumber.text,
+                                //   verificationCompleted: (PhoneAuthCredential credential) {},
+                                //   verificationFailed: (FirebaseAuthException e) {},
+                                //   codeSent: (String verificationId, int? resendToken) {
+                                //     LoginScreen.verify = verificationId;
+                                //     model.navigationService.navigateTo(to: OtpScreen(index: 0,));
+                                //   },
+                                //   codeAutoRetrievalTimeout: (String verificationId) {},
+                                // );
                                 //model.navigationService.navigateTo(to: OtpScreen(index: 0,));
+                                model.login();
                               },
                               margin: EdgeInsets.symmetric(
                                   horizontal: 2.w
                               ),
-                              text: 'SIGN IN',
                               buttonColor: Colors.black,
-                              textColor: Colors.white,
+                              child: model.isLoading1 == false ?
+                              Text("SIGN IN",
+                                style: TextStyle(
+                                  fontSize: 1.8.t,
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.white,
+                                ),
+                              ) :
+                                 const Loader(),
                             ),
                             SizedBox(height: 2.5.h,),
                             DecoratedCustomButton(

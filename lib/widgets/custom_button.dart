@@ -46,3 +46,51 @@ class CustomButton extends StatelessWidget {
     );
   }
 }
+
+class CustomButton1 extends StatelessWidget {
+  double? height;
+  EdgeInsetsGeometry? margin;
+  Color? buttonColor;
+  Color? textColor;
+  Widget? child;
+  dynamic text;
+  GestureTapCallback? onTap;
+  CustomButton1({
+    super.key,
+    this.margin,
+    this.height,
+    this.buttonColor,
+    this.child,
+    required this.onTap
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.symmetric(
+            vertical: 1.5.h
+        ),
+        margin: margin,
+        decoration: BoxDecoration(
+          color: buttonColor,
+          borderRadius: BorderRadius.circular(1.5.w),
+        ),
+        child: Center(
+          child: child
+
+          // Text(
+          //   text,
+          //   style: TextStyle(
+          //     color: textColor,
+          //     fontSize: 1.8.t,
+          //     fontWeight: FontWeight.w900,
+          //
+          //   ),
+          // ),
+        ),
+      ),
+    );
+  }
+}

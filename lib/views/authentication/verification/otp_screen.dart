@@ -21,6 +21,7 @@ import 'package:stacked/stacked.dart';
 import '../../../app/locator.dart';
 import '../../../utils/image_utils.dart';
 import '../../../viewmodels/main_viewmodel.dart';
+import '../../../widgets/loader.dart';
 
 class OtpScreen extends StatefulWidget {
   int? index;
@@ -35,8 +36,6 @@ class OtpScreen extends StatefulWidget {
 class _OtpScreenState extends State<OtpScreen> {
 
   final FirebaseAuth auth = FirebaseAuth.instance;
-
-
   var code = '';
 
   customDialogue(){
@@ -172,6 +171,7 @@ class _OtpScreenState extends State<OtpScreen> {
                           ),
                         child: OTPTextField(
                           length: 6,
+                          //controller: model.otpFieldController,
                           // outlineBorderRadius: 15.w,
                           width: MediaQuery.of(context).size.width,
                           fieldWidth: 40,
@@ -192,6 +192,8 @@ class _OtpScreenState extends State<OtpScreen> {
 
                           onChanged: (value){
                             code = value;
+                            // model.otpFieldController;
+                            // model.notifyListeners();
                           },
 
                           onCompleted: (pin) {
@@ -202,20 +204,21 @@ class _OtpScreenState extends State<OtpScreen> {
                       ),
                       SizedBox(height: 10.h,),
 
-                      CustomButton(
+                      CustomButton1(
                         onTap: () async{
-                         try{
-                           PhoneAuthCredential credential =
-                           PhoneAuthProvider.credential(verificationId: LoginScreen.verify, smsCode: code);
-                           await auth.signInWithCredential(credential);
-                           widget.index == 0 ?
-                           model.navigationService.navigateTo(to: const BottomNavBar()) :
-                           model.navigationService.navigateTo(to: const BottomNavBar());
-                         }
-                         catch(e){
-                           print("wrong otp");
-                           customDialogue();
-                         }
+                          model.verifyOtp(context);
+                         // try{
+                         //   PhoneAuthCredential credential =
+                         //   PhoneAuthProvider.credential(verificationId: LoginScreen.verify, smsCode: code);
+                         //   await auth.signInWithCredential(credential);
+                         //   widget.index == 0 ?
+                         //   model.navigationService.navigateTo(to: const BottomNavBar()) :
+                         //   model.navigationService.navigateTo(to: const BottomNavBar());
+                         // }
+                         // catch(e){
+                         //   print("wrong otp");
+                         //   customDialogue();
+                         // }
                           // widget.index == 0 ?
                           // model.navigationService.navigateTo(to: const BottomNavBar()) :
                           // model.navigationService.navigateTo(to: const BottomNavBar());
@@ -223,9 +226,15 @@ class _OtpScreenState extends State<OtpScreen> {
                         margin: EdgeInsets.symmetric(
                             horizontal: 8.w
                         ),
-                        text: 'VERIFY NOW',
-                        buttonColor: ColorUtils.onboardHeading,
-                        textColor: Colors.white,
+                        child: model.isLoading1 == false ?
+                        Text("Verify Now",
+                          style: TextStyle(
+                            fontSize: 1.8.t,
+                            fontWeight: FontWeight.w900,
+                            color: ColorUtils.onboardHeading,
+                          ),
+                        ) :
+                        const Loader(),
                       ),
 
 
